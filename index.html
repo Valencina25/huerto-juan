@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Huerto Juan | Dashboard Profesional</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header>
+  <h1>🌱 Huerto Juan</h1>
+</header>
+
+<main>
+  <!-- Dashboard Cultivos -->
+  <section id="dashboard">
+    <h2>Panel de Cultivos</h2>
+    <div id="cultivos-list" class="grid"></div>
+
+    <h2>Agregar Cultivo (requiere contraseña)</h2>
+    <form id="add-cultivo-form">
+      <input type="text" id="nombre" placeholder="Nombre del cultivo" required>
+      <input type="text" id="clima" placeholder="Estado del clima" required>
+      <input type="number" id="temperatura" placeholder="Temperatura °C" required>
+      <input type="text" id="epocaSiembra" placeholder="Época de siembra" required>
+      <input type="text" id="epocaCosecha" placeholder="Época de recogida" required>
+      <input type="text" id="estado" placeholder="Estado del cultivo" required>
+      <input type="text" id="fitosanitario" placeholder="Fit./Plagas" required>
+      <input type="text" id="imagen" placeholder="Nombre imagen en assets/images/" required>
+      <input type="password" id="password" placeholder="Contraseña para agregar" required>
+      <button type="submit">Añadir Cultivo</button>
+    </form>
+
+    <h2>Calendario de Riego y Cosecha</h2>
+    <div id="calendario" class="grid"></div>
+  </section>
+
+  <!-- Gestión de Productos -->
+  <section id="productos">
+    <h2>Gestionar Productos (requiere contraseña)</h2>
+    <form id="add-producto-form">
+      <input type="text" id="prod-nombre" placeholder="Nombre del producto" required>
+      <input type="text" id="prod-descripcion" placeholder="Descripción" required>
+      <input type="text" id="prod-precio" placeholder="Precio" required>
+      <input type="text" id="prod-imagen" placeholder="Nombre imagen en assets/images/" required>
+      <input type="password" id="prod-password" placeholder="Contraseña" required>
+      <button type="submit">Añadir Producto</button>
+    </form>
+
+    <h3>Productos disponibles</h3>
+    <div id="productos-list" class="grid"></div>
+  </section>
+
+  <!-- Contacto y Presentación -->
+  <section id="contacto">
+    <h2>Contacto y Presentación</h2>
+    <div class="presentacion">
+      <p><strong>Huerto Juan</strong></p>
+      <p>Dirección: Calle Ejemplo 123, Sevilla, España</p>
+      <p>Teléfono: +34 600 123 456</p>
+      <p>Email: contacto@huertojan.com</p>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
