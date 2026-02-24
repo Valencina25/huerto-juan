@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Huerto Juan | Dashboard Profesional</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -12,38 +13,36 @@
 </header>
 
 <main>
-  <!-- Dashboard Cultivos -->
   <section id="dashboard">
     <h2>Panel de Cultivos</h2>
     <div id="cultivos-list" class="grid"></div>
 
-    <h2>Agregar Cultivo (requiere contraseña)</h2>
-    <form id="add-cultivo-form">
+    <h2>Agregar Cultivo</h2>
+    <form id="add-cultivo-form" class="form">
       <input type="text" id="nombre" placeholder="Nombre del cultivo" required>
-      <input type="text" id="clima" placeholder="Estado del clima" required>
+      <input type="text" id="clima" placeholder="Clima (soleado, nublado...)" required>
       <input type="number" id="temperatura" placeholder="Temperatura °C" required>
-      <input type="text" id="epocaSiembra" placeholder="Época de siembra" required>
-      <input type="text" id="epocaCosecha" placeholder="Época de recogida" required>
-      <input type="text" id="estado" placeholder="Estado del cultivo" required>
-      <input type="text" id="fitosanitario" placeholder="Fit./Plagas" required>
-      <input type="text" id="imagen" placeholder="Nombre imagen en assets/images/" required>
-      <input type="password" id="password" placeholder="Contraseña para agregar" required>
+      <input type="text" id="epocaSiembra" placeholder="Época de siembra (ej: Marzo)" required>
+      <input type="text" id="epocaCosecha" placeholder="Época de cosecha (ej: Julio)" required>
+      <input type="text" id="estado" placeholder="Estado (creciendo, listo...)" required>
+      <input type="text" id="fitosanitario" placeholder="Fitosanitario / Plagas" required>
+      <input type="text" id="imagen" placeholder="Nombre imagen (ej: tomate.jpg)" required>
+      <input type="password" id="password" placeholder="Contraseña: miHuerto123" required>
       <button type="submit">Añadir Cultivo</button>
     </form>
 
-    <h2>Calendario de Riego y Cosecha</h2>
+    <h2>Calendario de Siembra y Cosecha</h2>
     <div id="calendario" class="grid"></div>
   </section>
 
-  <!-- Gestión de Productos -->
   <section id="productos">
-    <h2>Gestionar Productos (requiere contraseña)</h2>
-    <form id="add-producto-form">
+    <h2>Productos del Huerto</h2>
+    <form id="add-producto-form" class="form">
       <input type="text" id="prod-nombre" placeholder="Nombre del producto" required>
       <input type="text" id="prod-descripcion" placeholder="Descripción" required>
-      <input type="text" id="prod-precio" placeholder="Precio" required>
-      <input type="text" id="prod-imagen" placeholder="Nombre imagen en assets/images/" required>
-      <input type="password" id="prod-password" placeholder="Contraseña" required>
+      <input type="text" id="prod-precio" placeholder="Precio (ej: 2€/kg)" required>
+      <input type="text" id="prod-imagen" placeholder="Nombre imagen (ej: tomate.jpg)" required>
+      <input type="password" id="prod-password" placeholder="Contraseña: miHuerto123" required>
       <button type="submit">Añadir Producto</button>
     </form>
 
@@ -51,21 +50,18 @@
     <div id="productos-list" class="grid"></div>
   </section>
 
-  <!-- Contacto y Presentación -->
   <section id="contacto">
-    <h2>Contacto y Presentación</h2>
+    <h2>Contacto</h2>
     <div class="presentacion">
       <p><strong>Huerto Juan</strong></p>
-      <p>Dirección: Calle Italica 6 valencina concepcion, Sevilla, España</p>
-      <p>Teléfono: +34 652 864 329</p>
-      <p>Email: valencina2012@hotmail.es</p>
+      <p>📍 Calle Italica 6, Valencina, Sevilla, España</p>
+      <p>📞 +34 652 864 329</p>
+      <p>📧 valencina2012@hotmail.es</p>
     </div>
   </section>
 </main>
 
 <script src="js/data.js"></script>
-<script src="js/ui.js"></script>
 <script src="js/dashboard.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>

@@ -1,88 +1,49 @@
-// --- Gestión de cultivos ---
-document.getElementById("add-cultivo-form").addEventListener("submit", function(e){
-  e.preventDefault();
-  const password = document.getElementById("password").value;
-  if(password !== ADMIN_PASSWORD){ alert("❌ Contraseña incorrecta."); return; }
-
-  const nombre = document.getElementById("nombre").value;
-  const clima = document.getElementById("clima").value;
-  const temperatura = parseFloat(document.getElementById("temperatura").value);
-  const epocaSiembra = document.getElementById("epocaSiembra").value;
-  const epocaCosecha = document.getElementById("epocaCosecha").value;
-  const estado = document.getElementById("estado").value;
-  const fitosanitario = document.getElementById("fitosanitario").value;
-  const imagen = document.getElementById("imagen").value;
-
-  const newCultivo = {
-    id: cultivos.length ? cultivos[cultivos.length-1].id + 1 : 1,
-    nombre, clima, temperatura, epocaSiembra, epocaCosecha, estado, fitosanitario,
-    imagen: "assets/images/" + imagen
-  };
-
-  cultivos.push(newCultivo);
-  saveCultivos();
-  renderCultivos();
-  this.reset();
-});
-
-function renderCultivos(){
+// --- Render Cultivos ---
+function renderCultivos() {
   const container = document.getElementById("cultivos-list");
+  if (!container) return;
   container.innerHTML = "";
+  
+  if (cultivos.length === 0) {
+    container.innerHTML = "<p>No hay cultivos. Añade uno abajo.</p>";
+    return;
+  }
+  
   cultivos.forEach(c => {
     container.innerHTML += `
       <div class="card" id="cultivo-${c.id}">
-        <img src="${c.imagen}" alt="${c.nombre}">
+        <img src="${c.imagen}" alt="${c.nombre}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>Sin imagen</text></svg>'">
         <h3>${c.nombre}</h3>
-        <p>🌡 Temperatura: ${c.temperatura}°C <span class="alerta-temp"></span></p>
+        <p>🌡 Temp: ${c.temperatura}°C</p>
         <p>🌤 Clima: ${c.clima}</p>
         <p>📅 Siembra: ${c.epocaSiembra}</p>
         <p>📅 Cosecha: ${c.epocaCosecha}</p>
         <p>📊 Estado: ${c.estado}</p>
-        <p>⚠ Fit.: ${c.fitosanitario} <span class="alerta"></span></p>
+        <p>⚠ Fit.: ${c.fitosanitario}</p>
         <button onclick="eliminarCultivo(${c.id})">Eliminar</button>
       </div>
     `;
   });
-  alertasCultivos();
   renderCalendario();
 }
 
-function eliminarCultivo(id){
-  cultivos = cultivos.filter(c => c.id !== id);
-  saveCultivos();
-  renderCultivos();
+function eliminarCultivo(id) {
+  if (confirm("¿Eliminar cultivo?")) {
+    removeCultivo(id);
+    renderCultivos();
+  }
 }
 
-// --- Gestión de productos ---
-document.getElementById("add-producto-form").addEventListener("submit", function(e){
-  e.preventDefault();
-  const password = document.getElementById("prod-password").value;
-  if(password !== ADMIN_PASSWORD){ alert("❌ Contraseña incorrecta."); return; }
-
-  const nombre = document.getElementById("prod-nombre").value;
-  const descripcion = document.getElementById("prod-descripcion").value;
-  const precio = document.getElementById("prod-precio").value;
-  const imagen = document.getElementById("prod-imagen").value;
-
-  const newProducto = {
-    id: productos.length ? productos[productos.length-1].id + 1 : 1,
-    nombre, descripcion, precio,
-    imagen: "assets/images/" + imagen
-  };
-
-  productos.push(newProducto);
-  localStorage.setItem("productos", JSON.stringify(productos));
-  renderProductos();
-  this.reset();
-});
-
-function renderProductos(){
+// --- Render Productos ---
+function renderProductos() {
   const container = document.getElementById("productos-list");
+  if (!container) return;
   container.innerHTML = "";
+  
   productos.forEach(p => {
     container.innerHTML += `
       <div class="card" id="producto-${p.id}">
-        <img src="${p.imagen}" alt="${p.nombre}">
+        <img src="${p.imagen}" alt="${p.nombre}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22>Sin imagen</text></svg>'">
         <h3>${p.nombre}</h3>
         <p>${p.descripcion}</p>
         <p><strong>Precio: ${p.precio}</strong></p>
@@ -92,13 +53,97 @@ function renderProductos(){
   });
 }
 
-function eliminarProducto(id){
-  productos = productos.filter(p => p.id !== id);
-  localStorage.setItem("productos", JSON.stringify(productos));
-  renderProductos();
+function eliminarProducto(id) {
+  if (confirm("¿Eliminar producto?")) {
+    removeProducto(id);
+    renderProductos();
+  }
 }
 
-// Inicialización
-loadCultivos();
-renderCultivos();
-renderProductos();
+// --- Formularios ---
+document.addEventListener("DOMContentLoaded", () => {
+  // Formulario cultivos
+  const formCultivo = document.getElementById("add-cultivo-form");
+  if (formCultivo) {
+    formCultivo.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const password = document.getElementById("password").value;
+      if (password !== ADMIN_PASSWORD) {
+        alert("❌ Contraseña incorrecta");
+        return;
+      }
+
+      addCultivo({
+        nombre: document.getElementById("nombre").value,
+        clima: document.getElementById("clima").value,
+        temperatura: parseFloat(document.getElementById("temperatura").value),
+        epocaSiembra: document.getElementById("epocaSiembra").value,
+        epocaCosecha: document.getElementById("epocaCosecha").value,
+        estado: document.getElementById("estado").value,
+        fitosanitario: document.getElementById("fitosanitario").value,
+        imagen: document.getElementById("imagen").value
+      });
+
+      renderCultivos();
+      this.reset();
+      alert("✅ Cultivo añadido");
+    });
+  }
+
+  // Formulario productos
+  const formProducto = document.getElementById("add-producto-form");
+  if (formProducto) {
+    formProducto.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const password = document.getElementById("prod-password").value;
+      if (password !== ADMIN_PASSWORD) {
+        alert("❌ Contraseña incorrecta");
+        return;
+      }
+
+      addProducto({
+        nombre: document.getElementById("prod-nombre").value,
+        descripcion: document.getElementById("prod-descripcion").value,
+        precio: document.getElementById("prod-precio").value,
+        imagen: document.getElementById("prod-imagen").value
+      });
+
+      renderProductos();
+      this.reset();
+      alert("✅ Producto añadido");
+    });
+  }
+
+  // Render inicial
+  renderCultivos();
+  renderProductos();
+  renderCalendario();
+});
+
+// --- Calendario ---
+function renderCalendario() {
+  const container = document.getElementById("calendario");
+  if (!container) return;
+  container.innerHTML = "";
+  
+  const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  
+  meses.forEach((mes, index) => {
+    const tieneSiembra = cultivos.some(c => c.epocaSiembra.toLowerCase().includes(mes.toLowerCase().substring(0, 3)));
+    const tieneCosecha = cultivos.some(c => c.epocaCosecha.toLowerCase().includes(mes.toLowerCase().substring(0, 3)));
+    
+    if (cultivos.length > 0 && (tieneSiembra || tieneCosecha)) {
+      container.innerHTML += `
+        <div class="card">
+          <h3>${mes}</h3>
+          ${tieneSiembra ? "<p>🌱 Siembra</p>" : ""}
+          ${tieneCosecha ? "<p>🧺 Cosecha</p>" : ""}
+        </div>
+      `;
+    }
+  });
+  
+  if (cultivos.length === 0) {
+    container.innerHTML = "<p>Añade cultivos para ver el calendario.</p>";
+  }
+}
