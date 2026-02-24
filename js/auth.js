@@ -1,5 +1,5 @@
 let loggedIn = false;
-const password = "huerto123";
+const password = "juan1962";
 
 function login() {
   const input = prompt("Introduce la contraseña de admin:");
